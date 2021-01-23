@@ -39,5 +39,34 @@ promise 必须是这三个状态中的一种： 等待态[pending](), 解决态[
 promise.then(onFullfilled, onRejected)
 ```
 
-* 2.2.1 onFullfilled   和 onRejected 都是可选参数
+### 2.2.1 **onFullfilled**   和 **onRejected** 都是可选参数
 
+* 2.2.1.1. 如果onFullfilled不是一个函数，它必须被忽略
+* 2.2.1.2. 如果onRejected不是一个函数，它必须被忽略
+
+### 2.2.2. 如果**onFullfilled**是一个函数
+
+* 2.2.2.1. 它必须在**promise**被**解决**后调用，promise的**值**作为它的第一个参数。
+* 2.2.2.2. 它一定不能再promise被解决前调用。
+* 2.2.2.3. 它一定不能被调用多次。
+
+### 2.2.3. 如果**onRejected**是一个函数
+
+* 2.2.3.1. 它必须在**promise**被**拒绝**之后调用，promise的**原因**作为它的第一个参数
+* 2.2.3.2. 它一定不能在**promise**被<b>拒绝</b>之前调用
+* 2.2.3.3. 它一定不能被调用多次。
+
+### 2.2.4. 在执行上下文栈中只包含平台代码之前， onFullfilled 或onRejected 一定不能被调用【3.1】
+
+### 2.2.5. ***onFullfilled***  和 ***onRejected***  一定被作为函数调用（没有***this***值）【3.2】
+
+### 2.2.6. 同一个***promise*** 上的 ***then*** 可能被调用多次
+
+- 2.2.6.1. 如果***promise*** 被解决，所有响应的onFullfilled回调必须按照他们原始调用then的顺序执行
+- 2.2.6.2. 如果***promise*** 被拒绝，所有响应的onRejected回调必须按照他们原始调用then的顺序执行
+
+###  2.2.7. ***then***  方法必须返回一个 ***promise*** 对象 【3.3】
+
+- 2.2.7.1. 如果 ***onFullfilled***  或 ***onRejected***  返回一个值x，运行promise 解决程序[[Resovle]]
+- 2.2.7.2. 如果 ***onFullfilled***  或 ***onRejected***  抛出一个异常e， promise2必须用e作为原因被拒绝
+- 2.2.7.3. 如果 ***onFullfilled***  不是一个函数并且 promise1 被解决， promise2必须用与promise1相同的值被解决
