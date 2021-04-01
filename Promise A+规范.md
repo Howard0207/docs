@@ -93,8 +93,8 @@ promise.then(onFullfilled, onRejected)
     * 2.3.3.3.4. 如果调用then抛出了一个异常e，
       * 2.3.3.3.4.1. 如果resolvePromise 或rejectPromise 已经被调用， 请忽略它
       * 2.3.3.3.4.2. 否则， 用e作为原因拒绝promise
-  * 2.3.3.4. 如果then 不是一个函数， 用x解决promise
-* 2.3.4. 如果x不是一个对象或函数，用x解决promise
+  * 2.3.3.4. 如果then 不是一个函数， 用x作为值解决promise
+* 2.3.4. 如果x不是一个对象或函数，用x作为值解决promise
 
 
 
