@@ -101,11 +101,13 @@ services:
 
 Note：
 
-	1. 从官网获取 **redis.conf** 配置文件
- 	2. 修改默认配置文件
-     * bind 127.0.0.1 # 注释掉这部分，这是限制redis只能本地访问
-     * protected-mode no # 默认 yes， 开启保护模式， 限制为本地访问
-     * daemonize no # 默认 no， 改为yes意为以守护进程方式启动，可后台运行， 除非kill进程（可选），==改为yes会是配置文件方式启动redis失败==
-     * dir ./ # 输入本地redis数据库存放文件夹（可选）
-     * appendonly yes # redis 持久化（可选）
+```text
+1. 从官网获取 **redis.conf** 配置文件
+2. 修改默认配置文件
+ * bind 127.0.0.1 # 注释掉这部分，这是限制redis只能本地访问
+ * protected-mode no # 默认 yes， 开启保护模式， 限制为本地访问
+ * daemonize no # 默认 no， 改为yes意为以守护进程方式启动，可后台运行， 除非kill进程（可选），==改为yes会是配置文件方式启动redis失败==
+ * dir ./ # 输入本地redis数据库存放文件夹（可选）
+ * appendonly yes # redis 持久化（可选）
+```
 
