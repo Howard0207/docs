@@ -18,7 +18,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-![image-20201229170746383](D:\SoftWare\Typora\docs\image-20201229170746383.png)
+
 
 上图可见，docker-compose已经安装完成
 
