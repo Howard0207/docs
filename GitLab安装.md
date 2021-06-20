@@ -144,26 +144,26 @@
 
    ```yml
    version: '3.9'
-     services:
-       gitlab:
+   services:
+      gitlab:
          image: 'gitlab/gitlab-ce'
          restart: always
          container_name: gitlab                                                                                                                                                                                                                                   
          environment:
-           TZ: 'Asia/Shanghai'
-           GITLAB_OMNIBUS_CONFIG: |
-             external_url 'http://192.168.0.111:17002'
-             gitlab_rails['time_zone'] = 'Asia/Shanghai'
-             gitlab_rails['gitlab_ssh_host'] = '192.168.0.111'
-             gitlab_rails['gitlab_shell_ssh_port'] = '7003'
+            TZ: 'Asia/Shanghai'
+            GITLAB_OMNIBUS_CONFIG: |
+               external_url 'http://192.168.0.111:17002'
+               gitlab_rails['time_zone'] = 'Asia/Shanghai'
+               gitlab_rails['gitlab_ssh_host'] = '192.168.0.111'
+               gitlab_rails['gitlab_shell_ssh_port'] = '7003'
          ports:
-           - '7002:7002'
-           - '7001:443'
-           - '7003:22'
+            - '7002:7002'
+            - '7001:443'
+            - '7003:22'
          volumes:
-           - /home/gitlab/config:/etc/gitlab
-           - /home/gitlab/data:/var/opt/gitlab
-           - /home/gitlab/logs:/var/log/gitlab
+            - /home/gitlab/config:/etc/gitlab
+            - /home/gitlab/data:/var/opt/gitlab
+            - /home/gitlab/logs:/var/log/gitlab
    
    ```
 
@@ -189,3 +189,62 @@
    ```
 
 6. 打开浏览器访问http://192.168.0.111:7002，其余内容同上
+
+## Gitlab 调优
+
+1. 进入gitlab容器
+
+   ```yaml
+   docker exec -it 容器ID /bin/bash
+   ```
+
+   
+
+2. 找到配置文件
+
+   ```shell
+   vim /etc/gitlab/gitlab.rb
+   ```
+
+   
+
+3. 搜索并调整参数
+
+   ```text
+   /worker_processes                                        //vim搜索
+   unicorn['worker_processes'] = 2                   //cpu核数
+   
+   /shared_buffers
+   postgresql['shared_buffers'] = "256MB"        //减少postgres数据库缓存
+   
+   /max_worker_processes 
+   
+   postgresql["max_worker_processes "]=5     //最大数据库连接数
+   
+   /concurrency
+   sidekiq['concurrency'] = 15                            //降低sidekiq中的并发级别
+   
+   /prometheus_monitoring
+   prometheus_monitoring['enable'] = false       //禁用普罗米修斯监控
+   
+   /worker_memory_limit_min
+   unicorn['worker_memory_limit_min'] = "200 * 1 << 20         //最小内存改为200
+   /worker_memory_limit_max
+   unicorn['worker_memory_limit_max'] = "300 * 1 << 20        //最大内存改为300
+   ```
+
+   
+
+4. 保存配置文件并重新运行配置文件
+
+   ```shell
+   gitlab-ctl reconfigure
+   ```
+
+5. 退出容器并重启容器
+
+   ```shell
+   sudo docker restart 容器ID
+   ```
+
+   
