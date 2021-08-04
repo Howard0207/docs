@@ -33,13 +33,13 @@
 
    #### 参数说明：
 
-   | 参数名称 | 参数说明                                                     |
-   | -------- | ------------------------------------------------------------ |
-   | d        | 指定容器运行于前台还是后台                                   |
-   | hostname | 指定主机地址，如果有域名可以指向域名                         |
-   | p        | 端口映射； 宿主机端口:容器端口                               |
-   | name     | 容器命名                                                     |
-   | restart  | 重启机制                                                     |
+   | 参数名称 | 参数说明                                                      |
+   | -------- | ------------------------------------------------------------- |
+   | d        | 指定容器运行于前台还是后台                                    |
+   | hostname | 指定主机地址，如果有域名可以指向域名                          |
+   | p        | 端口映射； 宿主机端口:容器端口                                |
+   | name     | 容器命名                                                      |
+   | restart  | 重启机制                                                      |
    | volume   | 数据卷； 将宿主机目录与容器目录映射同步。保证容器数据不丢失。 |
 
 4. 修改gitlab.rb配置文件
@@ -136,34 +136,34 @@
 
 3. 编辑docker-compose.yml文件
 
-   ```sh
-   vim docker-compose.yml
-   ```
+  ```sh
+  vim docker-compose.yml
+  ```
 
-   **文件内容如下**
+  **文件内容如下**
 
-   ```yml
-   version: '3.9'
-   services:
-      gitlab:
-         image: 'gitlab/gitlab-ce'
-         restart: always
-         container_name: gitlab                                                                                                                                                                                                                                   
-         environment:
-            TZ: 'Asia/Shanghai'
-            GITLAB_OMNIBUS_CONFIG: |
-               external_url 'http://192.168.0.111:17002'
-               gitlab_rails['time_zone'] = 'Asia/Shanghai'
-               gitlab_rails['gitlab_ssh_host'] = '192.168.0.111'
-               gitlab_rails['gitlab_shell_ssh_port'] = '7003'
-         ports:
-            - '7002:7002'
-            - '7001:443'
-            - '7003:22'
-         volumes:
-            - /home/gitlab/config:/etc/gitlab
-            - /home/gitlab/data:/var/opt/gitlab
-            - /home/gitlab/logs:/var/log/gitlab
+  ```yml
+  version: '3.9'
+  services:
+    gitlab:
+        image: 'gitlab/gitlab-ce'
+        restart: always
+        container_name: gitlab
+        environment:
+          TZ: 'Asia/Shanghai'
+          GITLAB_OMNIBUS_CONFIG: |
+            external_url 'http://192.168.0.111:17002'
+            gitlab_rails['time_zone'] = 'Asia/Shanghai'
+            gitlab_rails['gitlab_ssh_host'] = '192.168.0.111'
+            gitlab_rails['gitlab_shell_ssh_port'] = '7003'
+        ports:
+          - '7002:7002'
+          - '7001:443'
+          - '7003:22'
+        volumes:
+          - /home/gitlab/config:/etc/gitlab
+          - /home/gitlab/data:/var/opt/gitlab
+          - /home/gitlab/logs:/var/log/gitlab
    
    ```
 
