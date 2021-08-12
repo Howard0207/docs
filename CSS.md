@@ -360,6 +360,153 @@ CSS代码如下，渐进增强，不支持遮罩的浏览器还是纯色虚框�
 
 
 
+## CSS 遮罩 CSS3 mask/masks详细介绍
+
+### CSS mask-image属性详细介绍
+
+`mask-image`指遮罩使用的图片资源，默认值是`none`，也就是无遮罩图片。因此，和`border`属性中的`border-style`属性类似，是一个想要有效果就必须设定的属性值。
+
+`mask-image`遮罩所支持的图片类型非常的广泛，可以`url()`静态图片资源，格式包括JPG,PNG以及SVG等都是支持的；同时还支持多背景，因此理论上，使用`mask-image`我们可以遮罩出任意我们想要的图形。
+
+例如：
+
+原始图：
+
+![img](CSS.assets/ps1.jpg)
+
+遮罩图片：
+
+![loading效果](CSS.assets/loading_blue.png)
+
+
+
+```html
+<img src='1.jpg' class="mask-image" />
+```
+
+```css
+.mask-image {
+    width: 250px;
+    height: 187.5px;
+    -webkit-mask-image: url(loading.png);
+    mask-image: url(loading.png);
+}
+```
+
+最后效果：
+
+![PNG图片遮罩后的效果](CSS.assets/2017-11-11_211201.png)
+
+
+
+从上面这个基本的案例，我们可以看出， 所谓遮罩， 就是原始图片只显示遮罩图片非透明的部分。 例如本案例中， loading圆环有颜色部分就是外面一圈圆环，于是最终我们看到效果是原始图片，只露出了一个一个的圆环。并且半透明区域也准确遮罩显示了。
+
+因此，我们很少使用jpg图片来作为遮罩图片，因为jpg图片一定是完全不透明的，最终的效果就是原图什么也看不到。
+
+### SVG图形遮罩效果展示
+
+除了支持普通静态图片的遮罩，`mask-image`还支持SVG图形的遮罩效果。
+
+假设有下面名为`star.svg`的SVG图形
+
+<svg viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32.03125" height="32"><path d="M1024 402.148612c0-15.180828-11.484233-24.615229-34.469943-28.311824L680.617553 328.921539 542.157967 48.915763c-7.789793-16.821125-17.849274-25.227377-30.154733-25.227377-12.303304 0-22.356318 8.406252-30.152578 25.227377L343.384602 328.921539 34.45701 373.836788C11.488544 377.533383 0 386.967784 0 402.148612c0 8.619641 5.129969 18.465733 15.387751 29.542586l224.002896 217.846934L186.467905 957.226341c-0.821226 5.746427-1.228606 9.86118-1.228606 12.311925 0 8.61533 2.151138 15.894282 6.457726 21.847632 4.304432 5.961972 10.762158 8.92787 19.381799 8.92787 7.38888 0 15.590364-2.450746 24.615229-7.378102l276.302714-145.247096 276.322113 145.247096c8.630418 4.927357 16.834058 7.378102 24.606607 7.378102 8.23166 0 14.473841-2.965898 18.780428-8.92787 4.293655-5.944729 6.446948-13.232302 6.446948-21.847632 0-5.326115-0.206923-9.427935-0.618614-12.311925l-52.927054-307.688209 223.384282-217.846934C1018.673885 421.02388 1024 411.173478 1024 402.148612z"></path></svg>
+
+CSS代码如下：
+
+```css
+.mask-image {
+    width: 250px;
+    height: 187.5px;
+    -webkit-mask-image: url(star.svg);
+    mask-image: url(star.svg);
+}
+```
+
+结果原始图片显示为一片一片的星星形状：
+
+![image-20210805170934188](CSS.assets/image-20210805170934188.png)
+
+
+
+​																					[查看demo](http://www.zhangxinxu.com/study/201711/mask-image-svg-url.html)
+
+
+
+### 使用SVG图形中`<mask>`元素作为遮罩元素
+
+此用法和上面的区别在于仅仅是使用SVG中定义的`<mask>`作为遮罩，而不是SVG元素本身。
+
+在定义上，我们既能够把内敛的SVG中的`<mask>`作为遮罩， 也可以把外链的SVG文件中的`<mask>`作为遮罩；既能够作用在普通的HTML上，也能作用在SVG元素上。
+
+单从最终的表现上来看，内联使用还是外链使用，应用在普通 HTML上和应用在SVG原生上是有比较大的兼容性差异的，这里有必要好好说明下。
+
+如下SVG代码：
+
+```HTML
+<svg width="50" height="50" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="25" cy="25" rx="20" ry="10" fill="#000000" stroke="none"></ellipse>
+    <rect x="15" y="5" width="20" height="40" rx="5" ry="5" fill="#000000" stroke="none"></rect>
+</svg>
+```
+
+表现如下：
+
+<svg width="50" height="50" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="25" cy="25" rx="20" ry="10" fill="#000000" stroke="none"></ellipse>
+    <rect x="15" y="5" width="20" height="40" rx="5" ry="5" fill="#000000" stroke="none"></rect>
+</svg>
+
+下面我们要把上面这个形状转化为我们需要的遮罩。
+
+理论上，我们外面直接套个`<mask>`标签`<defs>`中就可以了，类似如下：
+
+```html
+<svg>
+    <defs>    
+        <mask id="mask">
+            <ellipse cx="25"  ...></ellipse>
+            <rect x="15" ...></rect>
+        </mask>
+    </defs>    
+</svg>
+```
+
+但是，**注意**，如果作为CSS`mask`属性值使用，上面这样直接处理是没有任何效果的，主要问题在于尺寸的识别上会有障碍。
+
+通常的做法是设定`<mask>`元素的`maskContentUnits`属性值为`objectBoundingBox`,然后我们`<mask>`元素内的图形尺寸全部先定在`1px*1px`的规则内。
+
+于是，本案例需要的SVG`<mask>`相关代码理论上应该是下面这样：
+
+```html
+<svg>
+    <defs>    
+        <mask id="mask" maskContentUnits="objectBoundingBox">
+            <ellipse cx=".5" cy=".5" rx=".4" ry=".2" fill="white"></ellipse>
+            <rect x=".3" y=".1" width=".4" height=".8" rx=".1" ry=".1" fill="white"></rect>
+        </mask>
+    </defs>    
+</svg>
+```
+
+然而事情没有这么简单：
+
+1. SVG`<mask>`其遮罩模式默认和普通图片的遮罩是不一样的，其遮罩类型是`luminance`，也就是基于亮度来进行遮罩的。而普通图片默认遮罩类型是`alpha`，基于透明度来遮罩的。当然，我们可以通过`mask-type`或`mask-mode`来设置SVG`<mask>`遮罩类型是`alpha`，用法为：`mask-type:alpha`。
+
+   因此，上面代码两个形状的填充使用的是`fill="white"`,白色亮度最高，表示完全遮罩。如果换成`fill="black"则是完全透明。
+
+2. 假设上面的SVG代码内敛在页面中，同事我们应用了如下CSS代码：
+
+   ```css
+   .mask-image{
+       mask-image: url(#mask);
+       -webkit-mask-image: url(#mask); /* #mask对应SVG中<mask>元素的id属性值 */
+   }
+   ```
+
+   结果会发现，在Firefox浏览器下，遮罩效果的边缘有些毛糙。
+
+
+
 
 
 
