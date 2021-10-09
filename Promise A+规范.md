@@ -56,6 +56,8 @@ promise.then(onFullfilled, onRejected)
 
 ### 2.2.4. 在执行上下文栈中只包含平台代码之前， onFullfilled 或onRejected 一定不能被调用【3.1】
 
+
+
 ### 2.2.5. ***onFullfilled***  和 ***onRejected***  一定被作为函数调用（没有***this***值）【3.2】
 
 ### 2.2.6. 同一个***promise*** 上的 ***then*** 可能被调用多次

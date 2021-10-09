@@ -7,7 +7,7 @@
    ```shell
     #docker-compose.yml 文件
     version: '3.9'
-      services:
+    services:
         nginx:
           image: ngxinx:1.19.1
           restart: always

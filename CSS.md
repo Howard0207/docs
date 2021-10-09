@@ -63,7 +63,7 @@ li:first-child:nth-last-child(2) { /* 2个 */ }
 li:first-child:nth-last-child(3) { /* 3个 */ }
 ```
 
-在CSS中，伪类可以级联使用的，于是，如果列表可以匹配`:first-child:nth-last-child(2)`则表示当前`<li>`元素即是第一个子元素，优势从后往前的第2个元素，因此，我们就能判断当前总共两个 `<li>`子元素， 我们就能精准实现我们想要的布局了，只需要配合相邻兄弟选择符加号`+`以及兄弟选择符`~`即可，例如：
+在CSS中，伪类可以级联使用的，于是，如果列表可以匹配`:first-child:nth-last-child(2)`则表示当前`<li>`元素即是第一个子元素，从后往前的第2个元素，因此，我们就能判断当前总共两个 `<li>`子元素， 我们就能精准实现我们想要的布局了，只需要配合相邻兄弟选择符加号`+`以及兄弟选择符`~`即可，例如：
 
 ```css
 /* 3个li项目的第1个列表项 */
@@ -509,11 +509,373 @@ CSS代码如下：
 
 
 
+## CSS3 mix-blend-mode
+
+> 该CSS属性作用是让元素的内容和这个元素的背景以及下面的元素发生“混合”
+
+该属性兼容性如下：
+
+![image-20210816112935478](CSS.assets/image-20210816112935478.png)
+
+该属性的值中英文对照如下：
+
+```css
+mix-blend-mode: normal;          	//正常
+mix-blend-mode: multiply;        	//正片叠底
+mix-blend-mode: screen;          	//滤色
+mix-blend-mode: overlay;         	//叠加
+mix-blend-mode: darken;          	//变暗
+mix-blend-mode: lighten;         	//变亮
+mix-blend-mode: color-dodge;      //颜色减淡
+mix-blend-mode: color-burn;	       //颜色加深
+mix-blend-mode: hard-light;		//强光
+mix-blend-mode: soft-light;		 //柔光
+mix-blend-mode: difference;      //差值
+mix-blend-mode: exclusion;       //排除
+mix-blend-mode: hue;             //色相
+mix-blend-mode: saturation;      //饱和度
+mix-blend-mode: color;           //颜色
+mix-blend-mode: luminosity;      //亮度
+```
+
+各个混合模式常见应用
+
+- `multiply`混合后通常颜色会加深，多用在白色背景图片和其他元素的混合，以及彩色纹理的合并上。
+- `screen`混合后颜色会减淡，非常适合实现霓虹灯光效果，适合黑色背景素材和其他元素混合，非常实用。
+- `overlay`在颜色值暗的时候，采用了类似“正片叠底”的算法，而颜色亮的时候，采用了类似“滤色”的算法。此混合模式比较适合实现文字水印效果。
+- `darken`表示哪个颜色暗使用哪个颜色，在web开发中，给图形或文字着色会很实用。
+- `lighten`是哪个颜色浅就表现为哪个颜色，在web开发中，给图形或文字着色会很实用。
+- `color-dodge`颜色减淡混合模式可以用来保护底图的高光，适合处理高光下的人物照片。
+- `color-burn`颜色加深混合模式可以用来保护底图的阴影，适合处理幽深秘境一类的照片，通过和特定的色彩进行混合，可以营造更加幽深的意境。
+- `hard-light`的效果是强光，最终的混合效果就好像耀眼的聚光灯照射过来，表现为图像亮的地方更亮，暗的地方更暗。多用在图像表现处理上。
+- `soft-light`的效果是柔光，最终的混合效果就好像发散的光源弥漫过来，表现效果和hard-light有类似之处，只是表现没有那么强烈。给图像着色的时候常用此混合模式。
+- `difference`是差值效果，可以实现颜色的反色效果。
+- `exclusion`的效果是排除，最终的混合效果和difference模式是类似的，区别在于exclusion的对比度要更低一些。
+
+## CSS3 background-blend-mode
+
+> `background-blend-mode`背景混合模式。可以是背景图片间的混合，也可以是背景图片与背景色的混合。
+
+属性兼容性如下：
+
+![image-20210816113610519](CSS.assets/image-20210816113610519.png)
+
+**注意：**
+
+只能是background属性中的背景图片和颜色混合，而且只能在一个background属性中。
+
+`background-blend-mode`目前多用在纹理效果，以及图标的变色上，其作用原理要比`mix-blend-mode`更难理解。
+
+****
 
 
 
 
 
+## border-radius
+
+### 一、border-radius百分比值
+
+`border-radius`支持百分比值，例如`border-radius:50%`。`border-radius`百分比值是后来才支持的，某些老版本的Android机子，`border-radius:50%`它就不认识。
+
+百分比是相对单位，但是不同属性相对的内容是不一样的。
+
+* translate 是自身
+* width/height 是父级
+* background-position需要尺寸差计算等。
+
+那么`border-radius`的百分比值相对的属性是？
+
+举个栗子：
+
+```css
+.radius-test1 {
+    width:100px;
+    height: 100px;
+    border:  50px solid #cd0000;
+    border-radius: 50%;
+    box-sizing: content-box;
+}
+```
+
+```html
+<div class="radius-test1">
+</div>
+```
+
+![image-20210823163451835](CSS.assets/image-20210823163451835.png)
+
+
+
+答案是，相对元素占据尺寸的百分比，也就是包含边框，padding后的尺寸。而不是单纯的相对于`width/height`值。
+
+
+
+`border-radius`还有个大值特性，也就是值很大的时候，只会使用能够渲染的圆角大小渲染。因此，要实现一个正方形元素的圆角效果（例如网站头像）， 我们可以使用一个很大的圆角值，同样不需要计算的。例如： 240*240像素图片，我们直接设置圆角大小300px，跟设置50%效果是一样的。
+
+
+
+<img src="CSS.assets/wanshenggui.jpg" alt="万圣节-扮鬼" style="border-radius: 300px; margin: auto; display: block; width: 240px; height: 240px;" />
+
+
+
+貌似大数值`border-radius`值好像和50%没什么区别，那是因为上面的图片是正方形，实际两者是有区别的。
+
+我们把上面红圈粒子的height改成 200px看看对应效果；
+
+```css
+.radius-test2 {
+    width: 100px;
+    height: 200px;
+    border: 50px solid #cd0000;
+    border-radius: 50%;
+}
+.radius-test3 {
+    width: 100px;
+    height: 200px;
+    border: 50px solid #cd0000;
+    border-radius: 300px;
+}
+```
+
+
+
+![image-20210823165030105](CSS.assets/image-20210823165030105.png)
+
+
+
+这样一看，差距就很明显了，一个像马桶盖子，一个像橡胶跑道。
+
+**GOD，why？**
+
+`50%`成为“马桶盖子”还好理解，宽度和高度分别50%圆角化； 但是后面命名圆角300px，比占据高度需要的圆角大小值要高出不少，为什么还是直的呢？
+
+实际原因还就是因为太大了，所以才会变成的“操场跑道”
+
+### 三、border-radius单值表现深入
+
+由于我们平时使用`border-radius`绝大多数情况是都单值，例如`border-radius:300px`，于是，久而久之可那会忽略这样一个事实，就是`border-radius`单值实际上是一种简写。就跟 `padding: 300px`,`border-width: 200px`是一样的，是各个方位等值时候的一种简化书写形式。但是和一般的可简写CSS属性相比，`border-radius`要比看上去的复杂的多。
+
+我们将`border-radius: 300px`还原成其整容前的墨阳，结果是：
+
+```css
+border-radius: 300px 300px 300px 300px/300px 300px 300px 300px;
+```
+
+日！这是什么鬼。
+
+解释一下：
+
+```text
+border-radius: 左上角水平圆角半径大小 右上角水平圆角半径大小 右下角水平圆角半径大小 左下角水平圆角半径大小/左上角垂直圆角半径大小 右上角垂直圆角半径大小 右下角垂直圆角半径大小 左下角垂直圆角半径大小;
+```
+
+也就是说 **斜杠前是水平方向，斜杠后是垂直方向**。
+
+虽然`border-radius`和`border-width`/`border-color`等都是`border`打头的，但是，两者缩写与方位的表示却不一样。
+
+传统的`border`四个值分别表示 **上， 右， 下， 左** 边框。但是 `border-radius`表示的是角落。
+
+​				[CSS3 border-radius圆角各个属性值作用演示 » 张鑫旭-鑫空间-鑫生活 (zhangxinxu.com)](https://www.zhangxinxu.com/study/201511/demo-border-radius.html)
+
+
+
+对于正圆，我们很少提到 “水平半径” 和 “垂直半径”， 因为，半径都是一样长的。 但是对于标准椭圆， 那就不一样了，因为存在最长半径和最小半径。在web中， 圆角的水平半径指的是椭圆的水平半径， 垂直半径就是椭圆下图所示的垂直半径：
+
+![image-20210823174539085](CSS.assets/image-20210823174539085.png)
+
+
+
+一个水平半径和一个垂直半径所夹起的那 `1 / 4`段 圆弧就是我们平时看的 圆角呈现， 如下变色显示：
+
+![image-20210823174649740](CSS.assets/image-20210823174649740.png)
+
+
+
+OK, 为了演示水平垂直半径，我们现在先重置0，然后让水平1和垂直1都是300像素，如下图所示：
+
+![左上角均是300像素的效果](CSS.assets/2015-11-01_200648.png)
+
+大家会看到，左上角出现了圆弧，那这个圆弧是怎么来的呢？我们画个圈圈辅助下~
+
+![圆弧大小](CSS.assets/2015-11-01_201759.png)
+
+
+
+可以看到， **原本设置的是`300px` * `300px`, 结果最后显示的却是 `200px` * `200px` 半径下的圆弧效果**，这显然不符合认知。
+
+实际上， CSS3圆角除了大值特性， 还有个**等比例特性**，就是水平半径和垂直半径的比例是恒定不变的。
+
+上面的栗子，由于我们的元素占据宽度是200px， 高度300px。 所以， 根据大值特性， 水平方向的300px只能按照 200px半径渲染； 再根据等比例特性， 虽然垂直方向理论上的最大半径是300px，但是受制于当初设定的300px * 300px的1：1比例， 垂直方向最终渲染的半径大小也是200px。
+
+于是，我们最后得到一个 200px * 200px 的圆弧。
+
+所以，**操场跑道**就是因为这个原因而形成的。
+
+
+
+既如此，如何设置才能实现等同于`border-radius:50%`的效果呢。
+
+如果理解了上面内容，其实很简单， 最关键的一点就是比例关系。 我们元素占据的尺寸是 200px * 300px；
+
+所以只要让水平半径和垂直半径保持2：3的比例就可以了，然后利用“大值特性”设一个安全的值即可
+
+```css
+.radius-test4 {
+      margin: 10px auto;
+      width: 100px;
+      height: 200px;
+      border: 50px solid #cd0000;
+      border-radius: 200px/300px;
+    }
+```
+
+```html
+<div class="radius-test4">
+    
+</div>
+```
+
+![image-20210823180020288](CSS.assets/image-20210823180020288.png)
+
+### 四、border-radius与图形构建
+
+`border-radius`支持的可变值足有8个，基本上，每个值的变化都会呈现不同的图形，例如，下面这样，
+
+![圆角生成的字母D](CSS.assets/2015-11-01_205807.png)
+
+
+
+案例： 
+
+[随机不规则圆角头像demo](https://www.zhangxinxu.com/study/201702/cicada-principle-border-radius.html)
+
+
+
+### 六、补充
+
+1. 有时候我们想使用透明边框优雅的增加元素的点击区域，此时的圆角大小值需要把透明边框的宽度也计算在内。
+
+   例如， 如果希望圆角 2px， 结果外面扩展了2px的透明边框；此时， 实际设置的`border-radius`值应该是4px。
+
+2. 我们都知道`border-radius`指定某个角落的圆角大小，比如`border-top-left-radius: 40px`这个大家都知道，但是，下面的内容你可不一定知道：
+
+   * 支持最多两个值，必须使用空格分隔。分别表示水平半径和垂直半径。而`border-radius`那种斜杠 `/` 分隔的写法这里是不支持的，只能是空格。
+
+   * 中间两个方位关键字，如`top/left`的前后顺序不能改变，否则会被人为是不合法。`top/bottom`表示垂直方向的在前面，`left/right`表示水平方向的右边。全部写法
+
+     ```css
+     .radius {
+         border-top-left-radius: 200px 100px;
+         border-top-right-radius: 200px 100px;
+         border-bottom-left-radius: 200px 100px;
+         border-bottom-right-radius: 200px 100px;
+     }
+     ```
+
+     上面综合一下可得，<b>border-垂直-水平-radius: 水平 垂直</b>
+
+     你没看没错！前面方位关键字和后面的半径方位**不匹配**，**不匹配**，正好相反！
+
+
+
+
+
+## position：sticky
+
+`position:sticky`有个非常重要的特性，就是sticky元素效果完全受制于**父级元素们**
+
+这和`position:fixed`定位有这根本性的不同，fixed元素直抵页面根元素，其他父元素对其left/top定位无法限制。
+
+特性：
+
+1. 父级元素不能有任何的`overflow:visible`意外的overflow设置，否则没有粘滞效果。因为改变了滚动容器（即使没有出现滚动条）。因此如果你的`position:sticky`无效，看看是不是某一个祖先元素设置了overflow:hidden，移除之即可。
+2. 父级元素设置和粘性定位元素灯光的固定的`height`高度值，或者高度计算值和粘性定位元素高度一样，也没有粘滞效果。[点击这里查看](https://www.zhangxinxu.com/wordpress/2020/03/position-sticky-rules/)
+3. 同一个父容器中的sticky元素，如果定位值相等，则会重叠；如果属于不同父元素，且这些父元素正好紧密相连，则会就站炔草，几开原来的元素，形成一次占位的效果。至于原因需要理解粘性定位的计算规则[点击这里查看](https://www.zhangxinxu.com/wordpress/2020/03/position-sticky-rules/)
+4. sticky定位，不近可以设置`top`,基于滚动容器上边缘定位；还可以设置`bottom`，也就是相对底部粘滞。如果水平滚动，也可以是设置`left/right`值。
+
+[position:sticky实现的富有层次的滚动交互demo](https://www.zhangxinxu.com/study/201812/position-sticky-demo.php)
+
+
+
+### 层次滚动实现原理
+
+首先，HTML结构如下（结构很重要）
+
+```html
+<article>
+    <section>
+        <h4>网曝王宝强殴打马蓉</h4>
+        <content>
+            <p>12月2日，有网友爆料称...</p>
+        </content>
+        <footer>网友评论：...</footer>
+    </section>
+    <section>
+        <h4>知情人爆料称马蓉闯入王宝强家拿剪刀对峙</h4>
+        <content>
+            <p>...</p>
+        </content>
+        <footer>网友评论：...</footer>
+    </section>
+    ...
+</article>
+```
+
+其中，标题`<h4>`和底部`<footer>`设置了sticky定位，如下：
+
+```css
+article h4, 
+h4 {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+content {
+    position: relative;
+}
+footer {
+    position: sticky;
+    bottom: 50vh;
+    z-index: -1;
+}
+```
+
+由于每一段短新闻都在section标签中，属于不同的父元素，因此，滚动的手，后面的新闻标题才能把前面已经sticky定位的新闻标题推开，这是sticky定位天然的特性，无需任何Javascript的帮助。
+
+
+
+如果，我们这里的HTML结构做调整，标题都是平级的，如下
+
+```html
+<article>
+    <section>
+        <h4>网曝王宝强殴打马蓉</h4>
+        <content>
+            <p>12月2日，有网友爆料称...</p>
+        </content>
+        <footer>网友评论：...</footer>
+        <!-- 下一个短新闻 -->
+        <h4>知情人爆料称马蓉闯入王宝强家拿剪刀对峙</h4>
+        <content>
+            <p>...</p>
+        </content>
+        <footer>网友评论：...</footer>
+    </section>
+    ...
+</article>
+```
+
+则最终效果是所有sticky定位的新闻标题都会重叠在一起，这并不是我们想要的效果。所以，`position:sticky`布局的时候，使用合适的HTML结构很重要。
+
+
+
+上面效果中，评论从后面钻出来的效果又是如何实现的？
+
+关键点：
+
+1. 定位`bottom`,效果和`top`正好是队里的。设置`top`粘滞的元素睡着往下滚动，是先滚动后固定；而设置`bottom·粘滞的元素则是先固定，后滚动；
+2. `z-index: - 1`让网友评论footer元素藏在了content的后面，于是才有了“犹抱琵琶半遮面”的效果。
 
 
 
