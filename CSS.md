@@ -790,7 +790,7 @@ OK, 为了演示水平垂直半径，我们现在先重置0，然后让水平1�
 特性：
 
 1. 父级元素不能有任何的`overflow:visible`意外的overflow设置，否则没有粘滞效果。因为改变了滚动容器（即使没有出现滚动条）。因此如果你的`position:sticky`无效，看看是不是某一个祖先元素设置了overflow:hidden，移除之即可。
-2. 父级元素设置和粘性定位元素灯光的固定的`height`高度值，或者高度计算值和粘性定位元素高度一样，也没有粘滞效果。[点击这里查看](https://www.zhangxinxu.com/wordpress/2020/03/position-sticky-rules/)
+2. 父级元素设置和粘性定位元素等高的固定的`height`高度值，或者高度计算值和粘性定位元素高度一样，也没有粘滞效果。[点击这里查看](https://www.zhangxinxu.com/wordpress/2020/03/position-sticky-rules/)
 3. 同一个父容器中的sticky元素，如果定位值相等，则会重叠；如果属于不同父元素，且这些父元素正好紧密相连，则会就站炔草，几开原来的元素，形成一次占位的效果。至于原因需要理解粘性定位的计算规则[点击这里查看](https://www.zhangxinxu.com/wordpress/2020/03/position-sticky-rules/)
 4. sticky定位，不近可以设置`top`,基于滚动容器上边缘定位；还可以设置`bottom`，也就是相对底部粘滞。如果水平滚动，也可以是设置`left/right`值。
 
