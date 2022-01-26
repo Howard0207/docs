@@ -136,6 +136,8 @@
 
 3. 编辑docker-compose.yml文件
 
+   
+
   ```sh
   vim docker-compose.yml
   ```
@@ -165,7 +167,7 @@
           - /home/gitlab/data:/var/opt/gitlab
           - /home/gitlab/logs:/var/log/gitlab
    
-   ```
+  ```
 
    > docker-compose.yml文件，要严格遵守2个空格缩进的格式进行书写。
 
