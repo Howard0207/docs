@@ -27,3 +27,16 @@
 2. 响应式部署和扩展
 
 3. 在统一硬件上运行更多工作负载
+
+
+
+```shell
+docker run -d --hostname 192.168.206.138 \
+	-p 10110:443 -p 10111:80 -p 10112:22 \
+	--name gitlab --restart always \
+	--volume /home/gitlab/config:/etc/gitlab \
+	--volume /home/gitlab/logs:/var/log/gitlab \
+	--volume /home/gitlab/data:/var/opt/gitlab \ gitlabImageId
+	--privileged=true
+```
+

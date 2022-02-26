@@ -18,7 +18,7 @@
 
 第四组: 父元素内两个子div，两个子div里各有span标签，不改变vertical-align属性。
 
-![img](D:\SoftWare\Typora\docs\知识点总结.assets\v2-4a972c9d5df5751cb21bf87f8f0a0079_720w.png)
+![img](vertical-align.assets/v2-4a972c9d5df5751cb21bf87f8f0a0079_720w.png)
 
 **解释一下：**
 
@@ -32,7 +32,7 @@
 
   如果此时继续设置第二个div的vertical-align为middle，那么效果如下图右侧显示，两个div就水平对齐了，因为第二个div的垂直中点要继续和行盒子的baseline+x-height一半对齐（该线，接下来我将称其为对齐线），对齐线在设置第一个div vertical-align为middle时已经确定下来了，也就是下图长长的红线。因而两个div水平就对齐了。
 
-  ![img](D:\SoftWare\Typora\docs\知识点总结.assets\v2-2ff1c445140a7a755cb4e349ac3b8921_720w.jpg)
+  ![img](D:\SoftWare\Typora\docs\vertical-align.assets\v2-2ff1c445140a7a755cb4e349ac3b8921_720w.jpg)
 
 * 第四组：两个div都有内容元素，vertical-align默认值是baseline，每个div的基线就是盒子里最后一个内容元素的baseline。两个div的基线对齐，因而两个div水平对齐。
 
